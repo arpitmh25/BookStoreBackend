@@ -1,8 +1,11 @@
 package com.bridgelabz.bookstoreapp.controller;
 
 import com.bridgelabz.bookstoreapp.dto.OrderDTO;
+import com.bridgelabz.bookstoreapp.dto.OrderDetails;
 import com.bridgelabz.bookstoreapp.dto.ResponseDTO;
+import com.bridgelabz.bookstoreapp.model.Cart;
 import com.bridgelabz.bookstoreapp.model.Orders;
+import com.bridgelabz.bookstoreapp.service.ICartService;
 import com.bridgelabz.bookstoreapp.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +25,24 @@ public class OrderController {
     //Autowired IOrderService interface so we can inject its dependency here
     @Autowired
     IOrderService orderService;
+    //Autowired ICartService interface so we can inject its dependency here
+    @Autowired
+    ICartService cartService;
 
     //Ability to store  orders  record to repository
     @PostMapping("/createorder")
-    public ResponseEntity<ResponseDTO> insertOrderItem(@Valid @RequestBody OrderDTO orderdto) {
-        Orders newOrders = orderService.insertOrderItem(orderdto);
+    public ResponseEntity<ResponseDTO> insertOrderItem(@Valid @RequestBody OrderDetails orderDetails) {
+        List<Cart> newCart = cartService.getAllCartItems();
+        Cart firstElement = newCart.get(0);
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setAddress(orderDetails.getAddress());
+        orderDTO.setUserID(orderDetails.getUserID());
+        orderDTO.setBookID(firstElement.getBook().getBookID());
+        orderDTO.setQuantity(firstElement.getQuantity());
+        orderDTO.setPrice(firstElement.getBook().getPrice());
+        Orders newOrders = orderService.insertOrderItem(orderDTO);
         ResponseDTO responseDTO = new ResponseDTO("User registered successfully !", newOrders);
+        cartService.deleteAllFromCart();
         return new ResponseEntity(responseDTO, HttpStatus.CREATED);
     }
 

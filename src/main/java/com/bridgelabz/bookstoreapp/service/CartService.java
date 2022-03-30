@@ -154,16 +154,16 @@ public class CartService implements ICartService {
             throw new CartException("Cart Record doesn't exists");
         }
         else {
-            if(cart.get().getQuantity() < book.get().getQuantity()) {
+            if(cart.get().getQuantity()  > 0) {
                 cart.get().setQuantity(cart.get().getQuantity()-1);
                 cartRepository.save(cart.get());
                 log.info("Quantity in cart record updated successfully");
-                book.get().setQuantity(book.get().getQuantity() - ((cart.get().getQuantity()-1) - cart.get().getQuantity()));
+                book.get().setQuantity(book.get().getQuantity() + 1);
                 bookRepository.save(book.get());
                 return cart.get();
             }
             else {
-                throw new CartException("Requested quantity is not available");
+                throw new CartException("Cart is empty");
             }
         }
     }
@@ -172,15 +172,11 @@ public class CartService implements ICartService {
     public Cart increaseQuantity(Integer cartID) {
         Optional<Cart> cart = cartRepository.findById(cartID);
         Optional<Book>  book = bookRepository.findById(cart.get().getBook().getBookID());
-        if(cart.isEmpty()) {
-            throw new CartException("Cart Record doesn't exists");
-        }
-        else {
-            if(cart.get().getQuantity() < book.get().getQuantity()) {
+            if( book.get().getQuantity() >= 1) {
                 cart.get().setQuantity(cart.get().getQuantity()+1);
                 cartRepository.save(cart.get());
                 log.info("Quantity in cart record updated successfully");
-                book.get().setQuantity(book.get().getQuantity() - ((cart.get().getQuantity()+1) - cart.get().getQuantity()));
+                book.get().setQuantity(book.get().getQuantity() - 1);
                 bookRepository.save(book.get());
                 return cart.get();
             }
@@ -188,5 +184,4 @@ public class CartService implements ICartService {
                 throw new CartException("Requested quantity is not available");
             }
         }
-    }
     }
