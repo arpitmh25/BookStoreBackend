@@ -20,6 +20,5 @@ public class OrderDTO {
     @NotNull(message = "Price can not be empty")
     private Integer price;
 
-
     private boolean cancell;
 }

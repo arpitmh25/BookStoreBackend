@@ -7,6 +7,7 @@ import com.bridgelabz.bookstoreapp.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +34,7 @@ public class BookStoreService implements IBookStoreService {
         return books;
     }
 
-    @Override
-    public List<Book> getBooksByName(String searchQuery) {
+    private List<Book> getBooksByName(String searchQuery) {
         return bookRepository.getBooksByName(searchQuery);
 
     }
@@ -77,15 +77,15 @@ public class BookStoreService implements IBookStoreService {
     }
 
     //Created service method which serves controller api to get book record by name
-    @Override
-    public Book getBookByName(String bookName) {
-        Optional<Book> book = bookRepository.getBookByName(bookName);
-        if (book.isEmpty()) {
-            throw new BookStoreException("Book doesn't exists");
-        } else {
-            return book.get();
-        }
-    }
+//    @Override
+//    public Book getBookByName(String bookName) {
+//        Optional<Book> book = bookRepository.getBookByName(bookName);
+//        if (book.isEmpty()) {
+//            throw new BookStoreException("Book doesn't exists");
+//        } else {
+//            return book.get();
+//        }
+//    }
 
     //Created service method which serves controller api to sort in ascending order
     @Override
@@ -112,5 +112,24 @@ public class BookStoreService implements IBookStoreService {
             return newBook.get();
 
         }
+    }
+
+    //Created service method which serves controller to sort and search
+    public List<Book> getSortedBook(String searchQuery, String sortOrder) {
+        List<Book> bookData;
+        if (searchQuery == null || searchQuery.isEmpty()) {
+            bookData = getAllData();
+        } else {
+            bookData = getBooksByName(searchQuery);
+        }
+
+        if (sortOrder != null && !sortOrder.isEmpty()) {
+            if (sortOrder.equalsIgnoreCase("asc")) {
+                bookData.sort((o1, o2) -> o1.getPrice().compareTo(o2.getPrice()));
+            } else if (sortOrder.equalsIgnoreCase("desc")) {
+                bookData.sort((o1, o2) -> o2.getPrice().compareTo(o1.getPrice()));
+            }
+        }
+        return bookData;
     }
 }

@@ -124,21 +124,37 @@ public class UserRegistrationService implements IUserRegistrationService {
         return token;
     }
 
+    //Created service method which serves controller api to  login by user
     @Override
     public UserRegistration userRegistrationDetails(UserLoginDTO userLoginDto) {
         Optional<UserRegistration> userRegistration = userRegistrationRepository.findByEmail(userLoginDto.getEmail());
         System.out.println("Hello there" + userLoginDto.getEmail());
-        if (userLoginDto.getPassword().equals(userRegistration.get().getPassword()))
-        {
+        if (userLoginDto.getPassword().equals(userRegistration.get().getPassword())) {
             return userRegistration.get();
-        }
-        else {
+        } else {
 
             throw new UserRegistrationException("User doesn't exists");
         }
     }
 
+    //Created service method which serves controller api to  change user password
+    @Override
+    public String forgotPassword(String email, String password) {
+
+        Optional<UserRegistration> isUserPresent = userRegistrationRepository.findByEmail(email);
+
+        if (!isUserPresent.isPresent()) {
+            throw new UserRegistrationException("User record does not found");
+        } else {
+            UserRegistration user = isUserPresent.get();
+            user.setPassword(password);
+            userRegistrationRepository.save(user);
+            return "Password updated successfully";
+        }
+
     }
+}
+
 
 
 

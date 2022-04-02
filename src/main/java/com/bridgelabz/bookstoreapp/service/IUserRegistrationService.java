@@ -28,4 +28,6 @@ public interface IUserRegistrationService {
     public String getToken(String email);
 
     UserRegistration userRegistrationDetails(UserLoginDTO userLoginDto);
+
+    public String forgotPassword(String email, String password);
 }

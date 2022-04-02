@@ -17,8 +17,6 @@ public interface IBookStoreService {
 
     public Book deleteRecordById(Integer bookID);
 
-    public Book getBookByName(String bookName);
-
     List<Book> sortByPriceAscending();
 
     List<Book> sortByPriceDescending();
@@ -27,5 +25,6 @@ public interface IBookStoreService {
 
     List<Book> getAllData();
 
-    List<Book> getBooksByName(String searchQuery);
+    List<Book> getSortedBook(String searchQuery, String sortOrder);
+
 }

@@ -71,22 +71,25 @@ public class CartController {
         ResponseDTO responseDTO = new ResponseDTO("Quantity for book record updated successfully !", newCart);
         return new ResponseEntity(responseDTO, HttpStatus.OK);
     }
+
     @DeleteMapping("/deleteall")
     public ResponseEntity<ResponseDTO> deleteBooks() {
         List<Cart> books = cartService.deleteAllFromCart();
         return new ResponseEntity(books, HttpStatus.OK);
     }
+
     @GetMapping("/decreaseQuantity/{cartID}")
-    public ResponseEntity<ResponseDTO> decreaseQuantity(@PathVariable Integer cartID){
+    public ResponseEntity<ResponseDTO> decreaseQuantity(@PathVariable Integer cartID) {
         Cart newCart = cartService.decreaseQuantity(cartID);
-        ResponseDTO dto = new ResponseDTO("Quantity for book record updated successfully !",newCart);
-        return new ResponseEntity(dto,HttpStatus.OK);
+        ResponseDTO dto = new ResponseDTO("Quantity for book record updated successfully !", newCart);
+        return new ResponseEntity(dto, HttpStatus.OK);
     }
+
     @GetMapping("/increaseQuantity/{cartID}")
-    public ResponseEntity<ResponseDTO> increaseQuantity(@PathVariable Integer cartID){
+    public ResponseEntity<ResponseDTO> increaseQuantity(@PathVariable Integer cartID) {
         Cart newCart = cartService.increaseQuantity(cartID);
-        ResponseDTO dto = new ResponseDTO("Quantity for book record updated successfully !",newCart);
-        return new ResponseEntity(dto,HttpStatus.OK);
+        ResponseDTO dto = new ResponseDTO("Quantity for book record updated successfully !", newCart);
+        return new ResponseEntity(dto, HttpStatus.OK);
     }
 
 

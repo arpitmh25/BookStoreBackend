@@ -10,18 +10,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class BookstoreApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BookstoreApplication.class, args);
-	}
-	@Bean
-	public WebMvcConfigurer configure() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry reg) {
-				reg.addMapping("/**").allowedOrigins("*");
-			}
-		};
+    public static void main(String[] args) {
+        SpringApplication.run(BookstoreApplication.class, args);
+    }
 
-	}
+    //Return an object that should be registered as a bean
+    @Bean
+    //Annotated configuration classes implement  interface to be called back and given a chance to customize the default configuration
+    public WebMvcConfigurer configure() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry reg) {
+                reg.addMapping("/**").allowedOrigins("*");
+            }
+        };
+
+    }
 
 }

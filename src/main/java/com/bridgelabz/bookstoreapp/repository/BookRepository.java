@@ -10,8 +10,8 @@ import java.util.Optional;
 
 //Created BookRepository extending JpaRepository so that we perform CURD and can implement custom query methods
 public interface BookRepository extends JpaRepository<Book, Integer> {
-    @Query(value = "SELECT * FROM book where book_name=:bookName", nativeQuery = true)
-    Optional<Book> getBookByName(String bookName);
+//    @Query(value = "SELECT * FROM book where book_name=:bookName", nativeQuery = true)
+//    Optional<Book> getBookByName(String bookName);
 
     @Query(value = "SELECT * FROM book order by book_name", nativeQuery = true)
     List<Book> getSortedListOfBooks();
@@ -20,5 +20,5 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     List<Book> getSortedReverseListOfBooks();
 
     @Query(value = "SELECT * FROM book where book_name like :bookName%", nativeQuery = true)
-    List<Book> getBooksByName( String bookName);
+    List<Book> getBooksByName(String bookName);
 }

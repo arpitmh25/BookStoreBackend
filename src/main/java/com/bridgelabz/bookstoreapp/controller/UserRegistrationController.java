@@ -68,7 +68,7 @@ public class UserRegistrationController {
 
     //Ability to get user record to repository
     @GetMapping("/userlogin")
-    public ResponseEntity userLoginDetails(@RequestParam String email , @RequestParam String password ) {
+    public ResponseEntity userLoginDetails(@RequestParam String email, @RequestParam String password) {
         UserLoginDTO userLoginDto = new UserLoginDTO();
         userLoginDto.setEmail(email);
         userLoginDto.setPassword(password);
@@ -92,12 +92,20 @@ public class UserRegistrationController {
         return new ResponseEntity(responseDTO, HttpStatus.OK);
     }
 
+    //Forget password by email
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<String> forgotPassword(@RequestParam String email, @RequestParam String password) {
+        String responseDTO = service.forgotPassword(email, password);
+        return new ResponseEntity(responseDTO, HttpStatus.OK);
+    }
+
+
     //Ability to get user record to repository to get token by email
     @GetMapping("/getToken/{email}")
-    public ResponseEntity<ResponseDTO> getToken(@PathVariable String email){
+    public ResponseEntity<ResponseDTO> getToken(@PathVariable String email) {
         String generatedToken = service.getToken(email);
-        ResponseDTO responseDTO = new ResponseDTO("Token for mail id sent on mail successfully !",generatedToken);
-        return new ResponseEntity(responseDTO,HttpStatus.OK);
+        ResponseDTO responseDTO = new ResponseDTO("Token for mail id sent on mail successfully !", generatedToken);
+        return new ResponseEntity(responseDTO, HttpStatus.OK);
     }
 
 }

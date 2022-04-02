@@ -25,24 +25,13 @@ public class OrderController {
     //Autowired IOrderService interface so we can inject its dependency here
     @Autowired
     IOrderService orderService;
-    //Autowired ICartService interface so we can inject its dependency here
-    @Autowired
-    ICartService cartService;
+
 
     //Ability to store  orders  record to repository
     @PostMapping("/createorder")
     public ResponseEntity<ResponseDTO> insertOrderItem(@Valid @RequestBody OrderDetails orderDetails) {
-        List<Cart> newCart = cartService.getAllCartItems();
-        Cart firstElement = newCart.get(0);
-        OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setAddress(orderDetails.getAddress());
-        orderDTO.setUserID(orderDetails.getUserID());
-        orderDTO.setBookID(firstElement.getBook().getBookID());
-        orderDTO.setQuantity(firstElement.getQuantity());
-        orderDTO.setPrice(firstElement.getBook().getPrice());
-        Orders newOrders = orderService.insertOrderItem(orderDTO);
+        Orders newOrders = orderService.insertOrderItem(orderDetails);
         ResponseDTO responseDTO = new ResponseDTO("User registered successfully !", newOrders);
-        cartService.deleteAllFromCart();
         return new ResponseEntity(responseDTO, HttpStatus.CREATED);
     }
 
