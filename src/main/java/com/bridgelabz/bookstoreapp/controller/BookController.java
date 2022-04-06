@@ -50,7 +50,7 @@ public class BookController {
     }
 
     //Ability to update bookstoreapp record to repository
-    @PutMapping("/update/{bookID}")
+    @PutMapping("/updatebook/{bookID}")
     public ResponseEntity<String> updateRecordById(@PathVariable Integer bookID, @RequestBody BookDTO bookDTO) {
         Book newBook = iBookStoreService.updateRecordById(bookID, bookDTO);
         ResponseDTO responseDTO = new ResponseDTO(" Book Record updated successfully", newBook);
